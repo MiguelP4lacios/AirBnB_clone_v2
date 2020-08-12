@@ -8,6 +8,7 @@ from models.engine.file_storage import FileStorage
 import os
 from re import search
 from models.base_model import BaseModel
+import pep8
 
 
 def serve_value(command):
@@ -23,7 +24,8 @@ class test_console(unittest.TestCase):
     def setUp(self):
         """ Prepare removing current file.json"""
         try:
-            os.remove("file.json")
+            os.remove(os.getcwd() * "/file.json")
+            FileStorage__objects = []
         except:
             pass
 
@@ -68,3 +70,43 @@ class test_console(unittest.TestCase):
             "** no instance found **\n", serve_value("show BaseModel x"))
         self.assertEqual(
             "** instance id missing **\n", serve_value("show BaseModel"))
+    
+    def test_codestyle(self):
+        """ Test Py code stile """
+        style = pep8.Checker('console.py')
+        self.assertEqual(style.check_all(), 0)
+    
+    def test_docs(self):
+        self.assertIsNotNone(__import__("console").__doc__)
+        self.assertIsNotNone(__import__("console").isfloat.__doc__)
+        self.assertIsNotNone(__import__("console").isint.__doc__)
+        self.assertIsNotNone(__import__("console").get_patters.__doc__)
+        self.assertIsNotNone(__import__("console").marshall.__doc__)
+        self.assertIsNotNone(__import__("console").HBNBCommand.__doc__)
+        self.assertIsNotNone(__import__("console").HBNBCommand.preloop.__doc__)
+        self.assertIsNotNone(__import__("console").HBNBCommand.precmd.__doc__)
+        self.assertIsNotNone(__import__("console").HBNBCommand.do_create.__doc__)
+        self.assertIsNotNone(__import__("console").HBNBCommand.do_show.__doc__)
+        self.assertIsNotNone(__import__("console").HBNBCommand.do_count.__doc__)
+        self.assertIsNotNone(__import__("console").HBNBCommand.do_quit.__doc__)
+        self.assertIsNotNone(__import__("console").HBNBCommand.help_create.__doc__)
+        self.assertIsNotNone(__import__("console").HBNBCommand.do_all.__doc__)
+        self.assertIsNotNone(__import__("console").HBNBCommand.emptyline.__doc__)
+        self.assertIsNotNone(__import__("console").HBNBCommand.do_destroy.__doc__)
+        self.assertIsNotNone(__import__("console").HBNBCommand.help_destroy.__doc__)
+        self.assertIsNotNone(__import__("console").HBNBCommand.help_all.__doc__)
+        self.assertIsNotNone(__import__("console").HBNBCommand.do_update.__doc__)
+        self.assertIsNotNone(__import__("console").HBNBCommand.help_update.__doc__)
+    
+    def test_count(self):
+        models = []
+        hoped = 45
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("count BaseModel")
+
+        for m in range(45):
+            models.append(BaseModel())
+
+        hoped += int(output.getvalue())
+        self.assertEqual(hoped, int(output.getvalue()) + 45)
