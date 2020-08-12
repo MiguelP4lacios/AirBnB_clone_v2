@@ -70,12 +70,12 @@ class test_console(unittest.TestCase):
             "** no instance found **\n", serve_value("show BaseModel x"))
         self.assertEqual(
             "** instance id missing **\n", serve_value("show BaseModel"))
-    
+
     def test_codestyle(self):
         """ Test Py code stile """
         style = pep8.Checker('console.py')
         self.assertEqual(style.check_all(), 0)
-    
+
     def test_docs(self):
         self.assertIsNotNone(__import__("console").__doc__)
         self.assertIsNotNone(__import__("console").isfloat.__doc__)
@@ -85,19 +85,31 @@ class test_console(unittest.TestCase):
         self.assertIsNotNone(__import__("console").HBNBCommand.__doc__)
         self.assertIsNotNone(__import__("console").HBNBCommand.preloop.__doc__)
         self.assertIsNotNone(__import__("console").HBNBCommand.precmd.__doc__)
-        self.assertIsNotNone(__import__("console").HBNBCommand.do_create.__doc__)
-        self.assertIsNotNone(__import__("console").HBNBCommand.do_show.__doc__)
-        self.assertIsNotNone(__import__("console").HBNBCommand.do_count.__doc__)
-        self.assertIsNotNone(__import__("console").HBNBCommand.do_quit.__doc__)
-        self.assertIsNotNone(__import__("console").HBNBCommand.help_create.__doc__)
-        self.assertIsNotNone(__import__("console").HBNBCommand.do_all.__doc__)
-        self.assertIsNotNone(__import__("console").HBNBCommand.emptyline.__doc__)
-        self.assertIsNotNone(__import__("console").HBNBCommand.do_destroy.__doc__)
-        self.assertIsNotNone(__import__("console").HBNBCommand.help_destroy.__doc__)
-        self.assertIsNotNone(__import__("console").HBNBCommand.help_all.__doc__)
-        self.assertIsNotNone(__import__("console").HBNBCommand.do_update.__doc__)
-        self.assertIsNotNone(__import__("console").HBNBCommand.help_update.__doc__)
-    
+        self.assertIsNotNone(__import__(
+            "console").HBNBCommand.do_create.__doc__)
+        self.assertIsNotNone(__import__(
+            "console").HBNBCommand.do_show.__doc__)
+        self.assertIsNotNone(__import__(
+            "console").HBNBCommand.do_count.__doc__)
+        self.assertIsNotNone(__import__(
+            "console").HBNBCommand.do_quit.__doc__)
+        self.assertIsNotNone(__import__(
+            "console").HBNBCommand.help_create.__doc__)
+        self.assertIsNotNone(__import__(
+            "console").HBNBCommand.do_all.__doc__)
+        self.assertIsNotNone(__import__(
+            "console").HBNBCommand.emptyline.__doc__)
+        self.assertIsNotNone(__import__(
+            "console").HBNBCommand.do_destroy.__doc__)
+        self.assertIsNotNone(__import__(
+            "console").HBNBCommand.help_destroy.__doc__)
+        self.assertIsNotNone(__import__(
+            "console").HBNBCommand.help_all.__doc__)
+        self.assertIsNotNone(__import__(
+            "console").HBNBCommand.do_update.__doc__)
+        self.assertIsNotNone(__import__(
+            "console").HBNBCommand.help_update.__doc__)
+
     def test_count(self):
         models = []
         hoped = 45
