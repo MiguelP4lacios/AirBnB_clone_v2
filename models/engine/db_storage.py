@@ -23,16 +23,16 @@ class DBStorage:
     def __init__(self):
         """ Contructor DB
         """
-        user = getenv('HBNB_MYGQL_USER')
+        user = getenv('HBNB_MYSQL_USER')
         passwd = getenv('HBNB_MYSQL_PWD')
         host = getenv('HBNB_MYSQL_HOST')
-        db = getenv('HNBNB_MYSQL_DB')
+        db = getenv('HBNB_MYSQL_DB')
 
         DB_URL = "mysql+mysqldb://{}:{}@{}/{}".format(user, passwd, host, db)
 
         self.__engine = create_engine(DB_URL, pool_pre_ping=True)
         Base.metadata.create_all(self.__engine)
-        Session = sessionmaker(bind=self.__engine)
+        Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
         self.__session = Session()
         if getenv('HBNB_ENV') == 'test':
             Base.medata.drop_all(self.__engine)
@@ -61,7 +61,12 @@ class DBStorage:
         """New object
         """
         if obj:
-            self.__session .add(obj)
+            payload = obj.to_dict()
+            try:
+                fobj = eval(obj.to_dict()['__class__'])(**payload)
+                self.__session.add(fobj)
+            except Exception as e:
+                print(e)
 
     def save(self):
         """commit in the DB
