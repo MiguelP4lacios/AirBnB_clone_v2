@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 """ Console Module """
 import cmd
 import re
@@ -193,14 +193,14 @@ class HBNBCommand(cmd.Cmd):
             new_instance = HBNBCommand.classes[parsed_args[0]]()
             new_instance.__dict__.update(values)
             print(new_instance.id)
-            storage.save()
+            new_instance.save()
             return
         else:
             if len(parsed_args) > 1:
                 return cmd.Cmd.default(self, args)
         new_instance = HBNBCommand.classes[parsed_args[0]]()
         print(new_instance.id)
-        storage.save()
+        new_instance.save()
         return
 
     def help_create(self):
