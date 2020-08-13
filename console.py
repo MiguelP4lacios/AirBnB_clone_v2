@@ -201,6 +201,7 @@ class HBNBCommand(cmd.Cmd):
         new_instance = HBNBCommand.classes[parsed_args[0]]()
         print(new_instance.id)
         new_instance.save()
+
         return
 
     def help_create(self):
