@@ -197,7 +197,7 @@ class HBNBCommand(cmd.Cmd):
             return
         else:
             if len(parsed_args) > 1:
-                return
+                return cmd.Cmd.default(self, args)
         new_instance = HBNBCommand.classes[parsed_args[0]]()
         print(new_instance.id)
         new_instance.save()
