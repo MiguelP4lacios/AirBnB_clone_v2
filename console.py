@@ -14,7 +14,7 @@ from models.review import Review
 from time import sleep
 
 
-def isfloat(x):
+'''def isfloat(x):
     """
         Check if number is float
     """
@@ -88,7 +88,7 @@ def get_patters(args):
         if len(values) > 1:
             nvalues.append(values[-1][0])
 
-    return nvalues
+    return nvalues'''
 
 
 class HBNBCommand(cmd.Cmd):
@@ -96,16 +96,16 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
 
     classes = {
-               'BaseModel': BaseModel, 'User': User, 'Place': Place,
-               'State': State, 'City': City, 'Amenity': Amenity,
-               'Review': Review
-              }
+        'BaseModel': BaseModel, 'User': User, 'Place': Place,
+        'State': State, 'City': City, 'Amenity': Amenity,
+        'Review': Review
+    }
     dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
     types = {
-             'number_rooms': int, 'number_bathrooms': int,
-             'max_guest': int, 'price_by_night': int,
-             'latitude': float, 'longitude': float
-            }
+        'number_rooms': int, 'number_bathrooms': int,
+        'max_guest': int, 'price_by_night': int,
+        'latitude': float, 'longitude': float
+    }
 
     def preloop(self):
         """Prints if isatty is false"""
@@ -137,7 +137,7 @@ class HBNBCommand(cmd.Cmd):
                 _id = pline[0].replace('\"', '')
                 pline = pline[2].strip()
                 if pline:
-                    if pline[0] is '{' and pline[-1] is'}'\
+                    if pline[0] is '{' and pline[-1] is '}'\
                             and type(eval(pline)) is dict:
                         _args = pline
                     else:
@@ -178,7 +178,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
-        parsed_args = args.split(" ")
+        '''parsed_args = args.split(" ")
         if not args:
             print("** class name missing **")
             return
@@ -202,7 +202,50 @@ class HBNBCommand(cmd.Cmd):
         print(new_instance.id)
         new_instance.save()
 
-        return
+        return'''
+        pline = args.split()
+        length = len(pline)
+        if length == 0:  # command: create
+            print("** class name missing **")
+            return
+        # command: create sdfsdfs BaseModel
+        # pline: ['create', 'sdfsdfs', 'BaseModel']
+        elif pline[0] not in HBNBCommand.classes:
+            print("** class doesn't exist **")
+            return
+        new_instance = HBNBCommand.classes[pline[0]]()
+
+        if length > 1:
+            for i in range(1, length):
+                if pline[1].count("=") != 1:
+                    continue
+                var = pline[i].split('=')
+                key_name = var[0]
+                value = var[1]
+                if not key_name:
+                    continue
+
+                # value is string
+                if (value[0] == '"' and value[-1] == '"' and
+                        len(value) != 1):
+                    value = value[1: -1]
+                    value = value.replace('_', ' ')
+                # value is float
+                elif value.count(".") == 1:
+                    try:
+                        value = float(value)
+                    except ValueError:
+                        continue
+                # value if integer
+                else:
+                    try:
+                        value = int(value)
+                    except ValueError:
+                        continue
+                setattr(new_instance, key_name, value)
+        new_instance.save()
+        print(new_instance.id)
+        new_instance.save()
 
     def help_create(self):
         """ Help information for the create method """
@@ -284,11 +327,11 @@ class HBNBCommand(cmd.Cmd):
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all().items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all().items():
                 print_list.append(str(v))
 
         print(print_list)
@@ -385,6 +428,7 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
