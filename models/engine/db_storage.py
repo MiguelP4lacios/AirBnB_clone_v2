@@ -31,16 +31,16 @@ class DBStorage:
         DB_URL = "mysql+mysqldb://{}:{}@{}/{}".format(user, passwd, host, db)
 
         self.__engine = create_engine(DB_URL, pool_pre_ping=True)
-        Base.metadata.create_all(self.__engine)
-        Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        self.__session = Session()
+        #Base.metadata.create_all(self.__engine)
+        #Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        #self.__session = Session()
         if getenv('HBNB_ENV') == 'test':
             Base.medata.drop_all(self.__engine)
 
     def all(self, cls=None):
         """all objects
         """
-        classes = ['State', 'City', 'User', 'Place', 'Review', 'Amenity']
+        classes = ['State', 'City']
         dict_objs = {}
 
         if cls:
@@ -60,13 +60,15 @@ class DBStorage:
     def new(self, obj):
         """New object
         """
-        if obj:
+
+        self.__session.add(obj)
+        """if obj:
             payload = obj.to_dict()
             try:
                 fobj = eval(obj.to_dict()['__class__'])(**payload)
                 self.__session.add(fobj)
             except Exception as e:
-                print(e)
+                print(e)"""
 
     def save(self):
         """commit in the DB
@@ -84,4 +86,6 @@ class DBStorage:
         """
         Base.metadata.create_all(self.__engine)
         r_session = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        self.__session = scoped_session(r_session)
+        ##self.__session = scoped_session(r_session)
+        Session = scoped_session(r_session)
+        self.__session = Session()
