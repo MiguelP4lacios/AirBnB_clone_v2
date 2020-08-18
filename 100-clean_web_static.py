@@ -70,7 +70,5 @@ def do_clean(number=0):
     else:
         number = int(number) + 1
 
-    local("ls -t versions/ | tail -n +{} |\
-        grep web_static* | xargs -r rm".format(number))
-    run("ls -t /data/web_static/releases/ | tail -n +{} |\
-        grep web_static* | xargs -r rm -r".format(number))
+    local("ls -t versions/ | tail -n +{} | grep web_static* | xargs -r rm".format(number))
+    run("ls -t /data/web_static/releases/ | tail -n +{} | grep web_static* | xargs -r rm -r".format(number))
