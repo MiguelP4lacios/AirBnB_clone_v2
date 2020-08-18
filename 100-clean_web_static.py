@@ -4,7 +4,7 @@ creates and distributes an archive to your web servers,
 using the function deploy
 """
 
-from fabric.api import env, run, put, local
+from fabric.api import env, run, put, local, cd, lcd
 from datetime import datetime
 from os.path import isdir, exists
 env.hosts = ['35.243.216.37', '35.185.84.192']
@@ -70,5 +70,9 @@ def do_clean(number=0):
     else:
         number = int(number) + 1
 
-    local("ls -t versions/ | tail -n +{} | grep web_static* | xargs -r rm".format(number))
-    run("ls -t /data/web_static/releases/ | tail -n +{} | grep web_static* | xargs -r rm -r".format(number))
+    with lcd('versions'):
+        local("ls -t | tail -n +{} | grep web_static* |\
+            xargs -r rm".format(number))
+    with cd('/data/web_static/releases/'):
+        run("ls -t | tail -n +{} | grep web_static* |\
+            xargs -r rm -r".format(number))
