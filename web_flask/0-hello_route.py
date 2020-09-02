@@ -14,7 +14,7 @@ def index():
         Returns:
             [string]: [message]
         """
-        return "Hello HBNB!\n"
+        return "Hello HBNB!"
 
 
 if __name__ == "__main__":
