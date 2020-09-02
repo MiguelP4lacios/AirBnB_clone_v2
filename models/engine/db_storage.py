@@ -40,22 +40,21 @@ class DBStorage:
     def all(self, cls=None):
         """all objects
         """
-        classes = ['State', 'City', 'User', 'Place', 'Review']
-        dict_objs = {}
+        classes = ['State', 'City', 'User', 'Place', 'Review', 'Amenity']
+        objs = {}
 
-        if cls:
-            result = self.__session.query(eval(cls)).all()
-            for obj in result:
-                key = obj.__class__.__name__ + '.' + obj.id
-                dict_objs[key] = obj
-        else:
+        if cls is None:
             for class_nm in classes:
-                result = self.__session.query(eval(class_nm)).all()
-                for obj in result:
+                query = self.__session.query(eval(class_nm)).all()
+                for obj in query:
                     key = obj.__class__.__name__ + '.' + obj.id
-                    dict_objs[key] = obj
-
-        return dict_objs
+                    objs[key] = obj
+        else:
+            query = self.__session.query(eval(cls)).all()
+            for obj in query:
+                key = obj.__class__.__name__ + '.' + obj.id
+                objs[key] = obj
+        return objs
 
     def new(self, obj):
         """New object
