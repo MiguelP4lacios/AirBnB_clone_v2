@@ -31,7 +31,7 @@ class DBStorage:
         DB_URL = "mysql+mysqldb://{}:{}@{}/{}".format(user, passwd, host, db)
 
         self.__engine = create_engine(DB_URL, pool_pre_ping=True)
-        #Base.metadata.create_all(self.__engine)
+        # Base.metadata.create_all(self.__engine)
         #Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
         #self.__session = Session()
         if getenv('HBNB_ENV') == 'test':
@@ -44,7 +44,7 @@ class DBStorage:
         dict_objs = {}
 
         if cls:
-            result = self.__session.query(eval(cls)).all()
+            result = self.__session.query(cls).all()
             for obj in result:
                 key = obj.__class__.__name__ + '.' + obj.id
                 dict_objs[key] = obj
@@ -89,3 +89,5 @@ class DBStorage:
         ##self.__session = scoped_session(r_session)
         Session = scoped_session(r_session)
         self.__session = Session()
+    def close(self):
+        self.__session.remove()
