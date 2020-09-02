@@ -48,7 +48,7 @@ def number_route(n):
 def number_template(n):
     """number template function
     """
-    return render_template("5-number.html", n=n)
+    return render_template("5-number.html", num=n)
 
 
 if __name__ == "__main__":
