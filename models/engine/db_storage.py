@@ -60,15 +60,8 @@ class DBStorage:
     def new(self, obj):
         """New object
         """
-
-        self.__session.add(obj)
-        """if obj:
-            payload = obj.to_dict()
-            try:
-                fobj = eval(obj.to_dict()['__class__'])(**payload)
-                self.__session.add(fobj)
-            except Exception as e:
-                print(e)"""
+        if obj:
+            self.__session.add(obj)
 
     def save(self):
         """commit in the DB
