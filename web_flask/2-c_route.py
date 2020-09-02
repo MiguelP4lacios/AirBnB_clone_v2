@@ -25,7 +25,7 @@ def f_hbnb():
 def parm_hbnb(text):
     """c function
     """
-    return "C {}".format(text)
+    return "C {}".format(text).replace("_", " ")
 
 
 if __name__ == "__main__":
