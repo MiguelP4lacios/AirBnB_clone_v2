@@ -32,8 +32,8 @@ class DBStorage:
 
         self.__engine = create_engine(DB_URL, pool_pre_ping=True)
         # Base.metadata.create_all(self.__engine)
-        #Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        #self.__session = Session()
+        # Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        # self.__session = Session()
         if getenv('HBNB_ENV') == 'test':
             Base.medata.drop_all(self.__engine)
 
@@ -86,9 +86,10 @@ class DBStorage:
         """
         Base.metadata.create_all(self.__engine)
         r_session = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        ##self.__session = scoped_session(r_session)
+        # self.__session = scoped_session(r_session)
         Session = scoped_session(r_session)
         self.__session = Session()
+
     def close(self):
         """call remove() method on the private session attribute
         """
