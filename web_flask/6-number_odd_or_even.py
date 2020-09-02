@@ -55,7 +55,7 @@ def number_template(n):
 def number_odd_or_even(n):
     """number template function
     """
-    even = lambda num: n%2 == 0
+    def even(num): return n % 2 == 0
     return render_template("6-number_odd_or_even.html", num=n, even=even(n))
 
 
