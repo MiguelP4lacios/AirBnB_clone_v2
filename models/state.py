@@ -23,7 +23,6 @@ class State(BaseModel, Base):
         @property
         def cities(self):
             """Asociete cities and states"""
-            """return type(self).cities"""
             cities_dict = models.storage.all(City)
             cities_list = []
             for city in cities_dict.values():
