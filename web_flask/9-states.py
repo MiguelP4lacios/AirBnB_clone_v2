@@ -14,6 +14,7 @@ def current_remove(self):
     """
     storage.close()
 
+
 # host:5000/(id)
 @app.route('/states/', strict_slashes=False)
 @app.route('/states/<id>', strict_slashes=False)
