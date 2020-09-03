@@ -17,7 +17,7 @@ def current_remove(self):
 # host:5000/(id)
 @app.route('/states/', strict_slashes=False)
 @app.route('/states/<id>', strict_slashes=False)
-def display_html(id):
+def display_html(id=None):
     """display states Id
     """
     data = storage.all("State")
