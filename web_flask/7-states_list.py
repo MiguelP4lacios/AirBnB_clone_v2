@@ -14,6 +14,7 @@ def current_remove(self):
     """
     storage.close()
 
+
 @app.route('/states_list', strict_slashes=False)
 def display_html():
     """display states
