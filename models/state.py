@@ -5,7 +5,6 @@ from models.base_model import Base
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 from os import getenv
-import models
 from models.city import City
 
 
@@ -23,9 +22,10 @@ class State(BaseModel, Base):
         @property
         def cities(self):
             """Asociete cities and states"""
-            cities_dict = models.storage.all(City)
-            cities_list = []
-            for city in cities_dict.values():
-                if city.state_id == self.id:
-                    cities_list.append(city)
-            return cities_list
+            from models import storage
+            list_city = []
+            all_ins = storage.all(City)
+            for value in all_ins.values():
+                if value.state_id == self.id:
+                    list_city.append(value)
+            return list_city
